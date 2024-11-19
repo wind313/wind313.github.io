@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="wind313">
+    
+    <title>
+        
+            Redis集群 |
+        
+        wind313&#39; blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="https://wind313.github.io/picx-images-hosting/logo.esj6befpy.webp">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/font/css/brands.min.css">
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"wind313' blog","author":"wind313","avatar":"https://wind313.github.io/picx-images-hosting/logo.esj6befpy.webp","logo":"https://wind313.github.io/picx-images-hosting/logo.esj6befpy.webp","favicon":"https://wind313.github.io/picx-images-hosting/logo.esj6befpy.webp"},"menu":{"首页":"/                        || fa-solid fa-home","分类":"/categories              || fa-solid fa-layer-group","工具":"/tools                || fa-solid fa-tools"},"first_screen":{"enable":false,"background_img":null,"background_img_dark":null,"description":"Never compromise.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created","post_datetime_format":"YYYY年MM月DD日 HH:mm"},"post":{"author_badge":{"enable":false,"level_badge":false,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm","copyright_info":false,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":false,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.36"},"waline":{"server_url":null,"reaction":false,"version":"3.2.1"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2024,"word_count":true,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{"tools":[{"category":"AI","anchorId":"QUk0"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI","image":"https://ts1.cn.mm.bing.net/th?id=ODLS.b6f91f47-2625-47be-8994-41a9aaf71403&w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2"},{"name":"通义千问","link":"https://tongyi.aliyun.com/","description":"阿里巴巴","image":"https://img.alicdn.com/imgextra/i1/O1CN01asLYeX1WhbsyEZn5u_!!6000000002820-55-tps-56-56.svg"},{"name":"讯飞星火","link":"https://xinghuo.xfyun.cn/","description":"科大讯飞","image":"https://ts1.cn.mm.bing.net/th?id=OADD2.9964503702858_1MAFB6782DE2UGART7&w=32&h=32&o=6&pid=21.2"},{"name":"kimi","link":"https://kimi.moonshot.cn/","description":"月之暗面","image":"https://ts4.cn.mm.bing.net/th?id=ODLS.f4f63418-cc4d-4a02-abe3-bb6283cafa3d&w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2"},{"category":"其他","anchorId":"JUU1JTg1JUI2JUU0JUJCJTk25"},{"name":"百度脑图","link":"https://naotu.baidu.com/","description":"百度","image":"https://ts3.cn.mm.bing.net/th?id=ODLS.2a0702c4-05e5-4092-be75-cbfba96a9641&w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2"},{"name":"PlantUML","link":"https://www.plantuml.com/plantuml/","description":"PlantUML代码生成图","image":"https://ts1.cn.mm.bing.net/th?id=ODLS.592c012f-40e6-4d9b-a27e-bd05e2854d95&w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2"}]},"version":"4.2.3"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="https://wind313.github.io/picx-images-hosting/logo.esj6befpy.webp">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               wind313&#39; blog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tools">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tools"></i>
+                                
+                                工具
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tools">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tools"></i>
+                                </span>
+                            
+                            工具
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        Redis集群
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="https://wind313.github.io/picx-images-hosting/logo.esj6befpy.webp">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">wind313</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-11-18 15:28</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Tue Nov 19 2024 23:16:53 GMT+0800">2024-11-19 23:16</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/Redis%E5%A4%8D%E4%B9%A0/">Redis复习</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>3.3k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>11 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h4 id="主从集群"><a href="#主从集群" class="headerlink" title="主从集群"></a>主从集群</h4><h5 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h5><p>主从复制基于Redis replication（默认使用异步复制），可以通过replicaof（Redis5.0之前是slaveof）命令配置各个节点的主从关系。配置完成后主从节点数据同步会自动进行。</p>
+<h5 id="第一次同步（全量复制）"><a href="#第一次同步（全量复制）" class="headerlink" title="第一次同步（全量复制）"></a>第一次同步（全量复制）</h5><ol>
+<li><p>从节点（slave）向主节点发送psync命令请求复制，主节点（master）收到psync命令后，使用fullresync命令（全量复制）响应从节点。</p>
+<p>psync包含两个参数：</p>
+<ul>
+<li>runID（redis4.0之后改为replid和replid2）：主服务器runID，第一次同步时值为’?’；</li>
+<li>offset：复制进度，第一次同步时，值为-1；</li>
+</ul>
+<p>fullresync返回这两个参数。</p>
+</li>
+<li><p>主节点执行bgsave命令生成RDB文件（子进程去生成）并发送给从节点，从节点清空当前数据，载入RDB文件。</p>
+<p>这期间的写操作命令写入到replication buffer中。</p>
+</li>
+<li><p>从节点完成RDB载入后，回复一个确认消息给主节点，主节点将replication buffer里记录的写操作命令发送给从节点，从节点去执行，此时第一次同步就完成了。</p>
+</li>
+</ol>
+<p>第一次同步后主节点和从节点会维护一个TCP长连接，主节点通过这个连接将写操作命令发送给从节点，从节点去执行。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/image.175ex5gnhz.webp"
+                       
+                 ></p>
+<p>当从节点过多时，主节点生成RDB和传输RDB的压力会很大，可以让部分从节点成为其他从节点的主节点去分摊主节点的压力。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/image.9rjfeixv6g.webp"
+                       
+                 ></p>
+<h5 id="增量复制"><a href="#增量复制" class="headerlink" title="增量复制"></a>增量复制</h5><h6 id="Redis2-8之前"><a href="#Redis2-8之前" class="headerlink" title="Redis2.8之前"></a>Redis2.8之前</h6><p>如果主从节点在命令同步时网络断开又恢复，从节点就会和主节点需要重新进行一次全量复制。</p>
+<h6 id="Redis2-8开始"><a href="#Redis2-8开始" class="headerlink" title="Redis2.8开始"></a>Redis2.8开始</h6><p>网络断开恢复后，只把网络断开期间主节点接收到的写操作命令，同步给从节点。</p>
+<p>主节点通过repl_backlog_buffer（复制积压缓冲区，一个环形队列，默认大小1MB，可以自定义）记录从生成RDB文件开始收到的所有写命令，一个主节点只有一个repl_backlog_buffer。</p>
+<p>repl_backlog_buffer的信息在Replication里，可以通过INFO replication命令查看。</p>
+<p>增量复制过程如下：</p>
+<ul>
+<li>从节点恢复网络后，发送psync命令（包含runID和offset）给主节点；</li>
+<li>主节点判断收到的runID和自己的runID是否相等，如果相等，使用continue（增量复制）命令响应从节点；</li>
+<li>主节点将断连期间执行的写命令发给从节点，从节点去执行。</li>
+</ul>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/image.73tz47av3n.webp"
+                       
+                 ></p>
+<p>以下情况需要全量同步：</p>
+<ul>
+<li>从节点缺少的数据不在repl_backlog_buffer中；</li>
+<li>从节点宕机或重启，runID和offset丢失；</li>
+<li>主节点宕机，新选出来的主节点的runID和offset会发生变化。</li>
+</ul>
+<h6 id="Redis4-0之后"><a href="#Redis4-0之后" class="headerlink" title="Redis4.0之后"></a>Redis4.0之后</h6><p>主从切换后仍然可能使用增量复制。</p>
+<p>使用replid和replid2代替runid：</p>
+<ul>
+<li>主节点：replid就是自己的id。主从切换之前，replid2为空；主从切换之后，新主节点的replid2是旧主节点（自己之前的主节点）的replid。</li>
+<li>从节点：replid是自己当前的主节点的replid。replid2是旧主节点的replid。</li>
+</ul>
+<p>还有两个字段：</p>
+<ul>
+<li>master_repl_offset：当前的复制偏移量；</li>
+<li>second_replid_offset：主从切换前，值为-1，主从切换后，新的主节点的second_replid_offset是旧主节点的复制偏移量。</li>
+</ul>
+<p>通过replid和replid2判断主从切换之后，新的主节点和从节点曾经是否属于同一个主库。如果属于同一个主库，可能进行增量复制。</p>
+<p>新主节点同步进度必须比从节点快，并且进度差异不能超过repl_backlog_buffer大小，否则进行全量复制。</p>
+<p>RDB会记录主从复制相关信息（比如replid），用于解决从节点重启后需要全量复制的问题。</p>
+<h5 id="从节点可能读到过期数据"><a href="#从节点可能读到过期数据" class="headerlink" title="从节点可能读到过期数据"></a>从节点可能读到过期数据</h5><ol>
+<li>Redis3.2之前，客户端读从库不会判断数据是否过期，可能返回过期数据。Redis3.2之后，客户端读从库会优先判断数据是否过期，如果过期，从库不会删除，但会返回空数据，避免返回空数据。</li>
+<li>使用EXPIRE和PEXPIRE设置过期时间（执行该命令往后TTL时间过期）时，如果从节点执行命令因为网络等原因延迟，客户端可能读到过期数据。可以使用EXPIREAT和PEXPIREAT（设置过期的时间戳），但主从节点时钟需保持一致。</li>
+</ol>
+<h5 id="哨兵"><a href="#哨兵" class="headerlink" title="哨兵"></a>哨兵</h5><p>哨兵（sentinel，稳定版在Redis2.8之后发布）是Redis的一种特殊运行模式，也是一个节点，不提供读写服务，默认端口26379。</p>
+<h6 id="运行哨兵"><a href="#运行哨兵" class="headerlink" title="运行哨兵"></a>运行哨兵</h6><p>通过以下命令让Redis以哨兵模式运行：</p>
+<p><code>redis-sentinel /path/to/sentinel.conf</code></p>
+<p><code>或</code></p>
+<p><code>redis-server /path/to/sentinel.conf --sentinel</code></p>
+<p>建议启动三个以上并且奇数个哨兵协作运行，可以增强容错性（避免网络波动等因素导致的误判）和可用性（一个哨兵失效，其他依然可用）。</p>
+<h6 id="哨兵功能"><a href="#哨兵功能" class="headerlink" title="哨兵功能"></a>哨兵功能</h6><ul>
+<li>监控：监控所有节点（包括自己）状态是否正常；</li>
+<li>故障转移：主节点故障时，自动将一个从节点升级为主节点；</li>
+<li>通知：通知从节点新的主节点连接信息，让它们执行replicaof成为新的主节点的从节点；</li>
+<li>配置提供：客户端连接哨兵，如果故障转移，哨兵会通知新的主节点信息给客户端。</li>
+</ul>
+<h6 id="哨兵集群组成"><a href="#哨兵集群组成" class="headerlink" title="哨兵集群组成"></a>哨兵集群组成</h6><p>哨兵节点之间通过Redis的发布订阅机制互相发现。主从集群中，主节点有一个_sentinel_:hello频道，不同哨兵通过该频道实现互相发现和互相通信。</p>
+<p>哨兵每10秒会向主节点发送INFO命令获取所有从节点列表，根据列表中的连接信息，和每个从节点建立连接并监控从节点。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/image.2objyx3l07.webp"
+                       
+                 ></p>
+<h6 id="检测节点下线"><a href="#检测节点下线" class="headerlink" title="检测节点下线"></a>检测节点下线</h6><p>哨兵每隔1秒会给其他所有节点发送ping命令，其他节点会响应（pong、loading或masterdown），如果没有在规定时间内响应，哨兵就会标记该节点为主观下线。</p>
+<p>哨兵如果认为主观下线的是从节点，不会做什么。如果是主节点，哨兵向其他哨兵发起命令，其他根据自身和该主节点的网络状况，做出赞成或拒绝的响应。当赞同数量达到哨兵配置文件中的quorum配置项设定的值（建议为哨兵个数&#x2F;2+1）后，主节点才会被判定为客观下线。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/image.m3okmagt.webp"
+                       
+                 ></p>
+<p>然后，哨兵集群会选举（Raft算法）出一个leader进行故障转移。</p>
+<h6 id="选举哨兵集群的leader"><a href="#选举哨兵集群的leader" class="headerlink" title="选举哨兵集群的leader"></a>选举哨兵集群的leader</h6><p>判断主节点下线的哨兵为候选者，候选者向其他哨兵发送命令表明希望成为leader，其他哨兵进行投票。每个哨兵只有一次投票机会，候选者可以把票投给自己，非候选者只能投给其他哨兵。</p>
+<p>候选者拿到半数以上的票并且票数大于等于哨兵配置文件中的quorum值才能成为leader。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/image.8z6jwtsk3t.webp"
+                       
+                 ></p>
+<h6 id="故障转移过程"><a href="#故障转移过程" class="headerlink" title="故障转移过程"></a>故障转移过程</h6><p>1.选举新主节点；</p>
+<ul>
+<li><p>把已下线的从节点和网络不好的从节点过滤掉。</p>
+<p>如果在down-after-milliseconds（主从最大连接超时时间）毫秒内，主从节点没有通过网络联系上，就可以认为主从节点断连了。如果断连次数超过10次，就认为该节点网络不好。</p>
+</li>
+<li><p>先根据从节点优先级排序。</p>
+<p>可以修改配置文件中的replica-priority（Redis5.0之前叫slave-priority）手动配置slave的优先级。默认100，越小越靠前，但0表示没有选举资格。没有最高的再进行下一步排序。</p>
+</li>
+<li><p>再根据复制进度排序。</p>
+<p>数据越完整，即与旧主节点数据越接近的越靠前。没有最高的再进行下一步排序。</p>
+</li>
+<li><p>最后根据runID排序，越小越靠前。</p>
+</li>
+</ul>
+<p>2.将从节点指向新主节点；</p>
+<p>通过向从节点发送slaveof命令，让旧主节点的所有从节点指向新主节点。</p>
+<p>3.通知客户端；</p>
+<p>每个哨兵提供发布订阅机制，客户端可以从客户端订阅消息。主从切换完成后，哨兵会向+switch-master频道发布新主节点的IP地址和端口消息。通过订阅发布机制，客户端不仅可以在主从切换后得到新主节点的连接信息，还可以监控主从节点切换过程中发生的重要事件，有助于了解切换速度。</p>
+<p>4.将旧主节点变为从节点。</p>
+<p>继续监视旧主节点，当旧主节点重新上线时，哨兵集群向它发送slaveof命令，让他成为新主节点的从节点。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/image.70ad6hsffb.webp"
+                       
+                 ></p>
+<h4 id="切片集群"><a href="#切片集群" class="headerlink" title="切片集群"></a>切片集群</h4><p>Redis3.0推出官方切片集群解决方案Redis Cluster。</p>
+<h5 id="Redis-Cluster优势"><a href="#Redis-Cluster优势" class="headerlink" title="Redis Cluster优势"></a>Redis Cluster优势</h5><ul>
+<li>支持动态扩容和缩容</li>
+<li>具备主从复制、故障转移（内置哨兵机制，不用单独部署哨兵集群）等开箱即用功能。</li>
+</ul>
+<h5 id="Redis-Cluster架构"><a href="#Redis-Cluster架构" class="headerlink" title="Redis Cluster架构"></a>Redis Cluster架构</h5><p>至少3个主节点和三个从节点，即每个主节点有一个从节点。</p>
+<p>Redis Cluster是去中心化的（每个节点使用Gossip协议通信），key找的是hash槽不是节点，一个主节点故障，不会影响其他主节点。</p>
+<h5 id="Redis-Cluster分片"><a href="#Redis-Cluster分片" class="headerlink" title="Redis Cluster分片"></a>Redis Cluster分片</h5><p>采用hash槽（hash slot）分区，每一个键值对属于一个hash槽。</p>
+<p>一个Redis Cluster有16384个hash槽，只需要对key计算CRC-16（XMODEM）校验码（16bit的值），并对校验码取模16384，得到的即是key对应的hash槽。</p>
+<h6 id="hash槽分区优点"><a href="#hash槽分区优点" class="headerlink" title="hash槽分区优点"></a>hash槽分区优点</h6><p>解耦数据与节点之间的关系，提升集群的横向扩展性和容错性。</p>
+<h6 id="hash槽与节点之间的映射"><a href="#hash槽与节点之间的映射" class="headerlink" title="hash槽与节点之间的映射"></a>hash槽与节点之间的映射</h6><p>hash槽与节点之间的映射有两种方案：</p>
+<ul>
+<li><p>平均分配：创建并初始化Redis Cluster时，会自动将hash槽平均分配到集群节点上。</p>
+</li>
+<li><p>手动分配：可以使用cluster meet命令手动建立节点间连接建立集群，再使用cluster addslots命令指定每个节点hash槽个数。</p>
+<p>在手动分配哈希槽时，需要把 16384 个槽都分配完，否则 Redis 集群无法正常工作。</p>
+</li>
+</ul>
+<p>在任意主节点上执行<code>cluster slots</code>命令可以查看hash槽与节点映射关系。</p>
+<p>移除某个主节点之前，要将该节点hash槽移动到其他节点上，才可以删除，否则报错。</p>
+<h6 id="客户端定位目标节点"><a href="#客户端定位目标节点" class="headerlink" title="客户端定位目标节点"></a>客户端定位目标节点</h6><p>客户端连接到任意主节点就可以访问Redis Cluster的数据，客户端发送请求时，根据key找到对应hash槽，再查询hash槽和节点的映射关系就可以找到目标节点。如果hash槽是当前节点负责，直接返回结果；否则（当Redis Cluster重新分配hash槽比如扩容缩容时，可能导致客户端缓存的hash槽分配信息有误）返回-MOVED重定向错误，告知客户端该hash槽是哪个节点负责，客户端向目标节点发送请求并更新缓存的hash槽分配信息。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/image.70ad6h95on.webp"
+                       
+                 ></p>
+<h6 id="重定向机制"><a href="#重定向机制" class="headerlink" title="重定向机制"></a>重定向机制</h6><p>重定向机制可以保证Redis Cluster在扩容和缩容期间能正常对外提供服务，分为ASK重定向（临时重定向）和MOVED重定向（永久重定向）。</p>
+<ol>
+<li>如果请求的key对应的hash槽还在当前节点，或者在迁移过程中但key还未迁移走，直接响应；</li>
+<li>如果请求的key对应的hash槽在迁移过程中，且key已经迁移走；<ul>
+<li>返回ASK（包含新节点信息）；</li>
+<li>客户端收到ASK，会临时重定向（一次性），即向新节点发送一条ASKING命令，下一次需要重新提前发送ASKING命令；</li>
+<li>如果当前请求的key还在导入中但未完全导入，新节点收到ASKING命令后可能会返回TRYAGAIN（重试错误）；</li>
+<li>客户端发送真正需要请求的命令；</li>
+<li>ASK重定向不会更新客户端缓存的hash槽分配信息。</li>
+</ul>
+</li>
+<li>如果请求的key对应的hash槽迁移完成，返回-MOVED，客户端向新节点请求并更新缓存的hash槽分配信息。</li>
+</ol>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/image.ic5d63e2e.webp"
+                       
+                 ></p>
+<h6 id="节点间的通信"><a href="#节点间的通信" class="headerlink" title="节点间的通信"></a>节点间的通信</h6><p>Redis Cluster中的各个节点基于Gossip协议进行通信，每个节点维护一份集群的状态信息。</p>
+<p>Redis Cluster的节点之间会互相发送多种Gossip信息：</p>
+<ul>
+<li>MEET：在集群的某个节点上执行<code>CLUSTER MEET ip port</code>命令，可以向指定节点发送一个MEET信息，将其添加进集群中成为新节点。</li>
+<li>PING&#x2F;PONG：集群中的节点都会定时向其他节点发送PING，交换各个节点状态信息，检查各个节点状态，包括在线状态、疑似下线状态（PFAIL）和已下线状态（FAIL）；</li>
+<li>FAIL：集群中的A节点发现B节点疑似下线，并且在下线报告的有效期限内集群中半数以上节点将B节点标记为疑似下线，A节点就会向集群广播一条FAIL消息，通知其他节点将B标记为已下线。</li>
+<li>……</li>
+</ul>
+<p>源码<a class="link"   target="_blank" rel="noopener" href="https://github.com/redis/redis/blob/7.0/src/cluster.h" >redis&#x2F;src&#x2F;cluster.h at 7.0 · redis&#x2F;redis<i class="fas fa-external-link-alt"></i></a>中定义了所有消息类型和消息结构。</p>
+
+                    
+                </div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/11/18/Bean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"
+                                   title="Bean的生命周期"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Bean的生命周期</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E9%9B%86%E7%BE%A4"><span class="nav-number">1.</span> <span class="nav-text">主从集群</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="nav-number">1.1.</span> <span class="nav-text">主从复制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%90%8C%E6%AD%A5%EF%BC%88%E5%85%A8%E9%87%8F%E5%A4%8D%E5%88%B6%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">第一次同步（全量复制）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A2%9E%E9%87%8F%E5%A4%8D%E5%88%B6"><span class="nav-number">1.3.</span> <span class="nav-text">增量复制</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Redis2-8%E4%B9%8B%E5%89%8D"><span class="nav-number">1.3.1.</span> <span class="nav-text">Redis2.8之前</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Redis2-8%E5%BC%80%E5%A7%8B"><span class="nav-number">1.3.2.</span> <span class="nav-text">Redis2.8开始</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Redis4-0%E4%B9%8B%E5%90%8E"><span class="nav-number">1.3.3.</span> <span class="nav-text">Redis4.0之后</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%8E%E8%8A%82%E7%82%B9%E5%8F%AF%E8%83%BD%E8%AF%BB%E5%88%B0%E8%BF%87%E6%9C%9F%E6%95%B0%E6%8D%AE"><span class="nav-number">1.4.</span> <span class="nav-text">从节点可能读到过期数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%93%A8%E5%85%B5"><span class="nav-number">1.5.</span> <span class="nav-text">哨兵</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E5%93%A8%E5%85%B5"><span class="nav-number">1.5.1.</span> <span class="nav-text">运行哨兵</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%93%A8%E5%85%B5%E5%8A%9F%E8%83%BD"><span class="nav-number">1.5.2.</span> <span class="nav-text">哨兵功能</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%93%A8%E5%85%B5%E9%9B%86%E7%BE%A4%E7%BB%84%E6%88%90"><span class="nav-number">1.5.3.</span> <span class="nav-text">哨兵集群组成</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%A3%80%E6%B5%8B%E8%8A%82%E7%82%B9%E4%B8%8B%E7%BA%BF"><span class="nav-number">1.5.4.</span> <span class="nav-text">检测节点下线</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%80%89%E4%B8%BE%E5%93%A8%E5%85%B5%E9%9B%86%E7%BE%A4%E7%9A%84leader"><span class="nav-number">1.5.5.</span> <span class="nav-text">选举哨兵集群的leader</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB%E8%BF%87%E7%A8%8B"><span class="nav-number">1.5.6.</span> <span class="nav-text">故障转移过程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%87%E7%89%87%E9%9B%86%E7%BE%A4"><span class="nav-number">2.</span> <span class="nav-text">切片集群</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Redis-Cluster%E4%BC%98%E5%8A%BF"><span class="nav-number">2.1.</span> <span class="nav-text">Redis Cluster优势</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Redis-Cluster%E6%9E%B6%E6%9E%84"><span class="nav-number">2.2.</span> <span class="nav-text">Redis Cluster架构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Redis-Cluster%E5%88%86%E7%89%87"><span class="nav-number">2.3.</span> <span class="nav-text">Redis Cluster分片</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#hash%E6%A7%BD%E5%88%86%E5%8C%BA%E4%BC%98%E7%82%B9"><span class="nav-number">2.3.1.</span> <span class="nav-text">hash槽分区优点</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#hash%E6%A7%BD%E4%B8%8E%E8%8A%82%E7%82%B9%E4%B9%8B%E9%97%B4%E7%9A%84%E6%98%A0%E5%B0%84"><span class="nav-number">2.3.2.</span> <span class="nav-text">hash槽与节点之间的映射</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%9A%E4%BD%8D%E7%9B%AE%E6%A0%87%E8%8A%82%E7%82%B9"><span class="nav-number">2.3.3.</span> <span class="nav-text">客户端定位目标节点</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91%E6%9C%BA%E5%88%B6"><span class="nav-number">2.3.4.</span> <span class="nav-text">重定向机制</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%8A%82%E7%82%B9%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1"><span class="nav-number">2.3.5.</span> <span class="nav-text">节点间的通信</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+        &copy;&nbsp;<span>2024</span>&nbsp;-&nbsp;2024
+        
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">wind313</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">5.1k</span>
+                </span>
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E9%9B%86%E7%BE%A4"><span class="nav-number">1.</span> <span class="nav-text">主从集群</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="nav-number">1.1.</span> <span class="nav-text">主从复制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%90%8C%E6%AD%A5%EF%BC%88%E5%85%A8%E9%87%8F%E5%A4%8D%E5%88%B6%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">第一次同步（全量复制）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A2%9E%E9%87%8F%E5%A4%8D%E5%88%B6"><span class="nav-number">1.3.</span> <span class="nav-text">增量复制</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Redis2-8%E4%B9%8B%E5%89%8D"><span class="nav-number">1.3.1.</span> <span class="nav-text">Redis2.8之前</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Redis2-8%E5%BC%80%E5%A7%8B"><span class="nav-number">1.3.2.</span> <span class="nav-text">Redis2.8开始</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Redis4-0%E4%B9%8B%E5%90%8E"><span class="nav-number">1.3.3.</span> <span class="nav-text">Redis4.0之后</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%8E%E8%8A%82%E7%82%B9%E5%8F%AF%E8%83%BD%E8%AF%BB%E5%88%B0%E8%BF%87%E6%9C%9F%E6%95%B0%E6%8D%AE"><span class="nav-number">1.4.</span> <span class="nav-text">从节点可能读到过期数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%93%A8%E5%85%B5"><span class="nav-number">1.5.</span> <span class="nav-text">哨兵</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E5%93%A8%E5%85%B5"><span class="nav-number">1.5.1.</span> <span class="nav-text">运行哨兵</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%93%A8%E5%85%B5%E5%8A%9F%E8%83%BD"><span class="nav-number">1.5.2.</span> <span class="nav-text">哨兵功能</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%93%A8%E5%85%B5%E9%9B%86%E7%BE%A4%E7%BB%84%E6%88%90"><span class="nav-number">1.5.3.</span> <span class="nav-text">哨兵集群组成</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%A3%80%E6%B5%8B%E8%8A%82%E7%82%B9%E4%B8%8B%E7%BA%BF"><span class="nav-number">1.5.4.</span> <span class="nav-text">检测节点下线</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%80%89%E4%B8%BE%E5%93%A8%E5%85%B5%E9%9B%86%E7%BE%A4%E7%9A%84leader"><span class="nav-number">1.5.5.</span> <span class="nav-text">选举哨兵集群的leader</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB%E8%BF%87%E7%A8%8B"><span class="nav-number">1.5.6.</span> <span class="nav-text">故障转移过程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%87%E7%89%87%E9%9B%86%E7%BE%A4"><span class="nav-number">2.</span> <span class="nav-text">切片集群</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Redis-Cluster%E4%BC%98%E5%8A%BF"><span class="nav-number">2.1.</span> <span class="nav-text">Redis Cluster优势</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Redis-Cluster%E6%9E%B6%E6%9E%84"><span class="nav-number">2.2.</span> <span class="nav-text">Redis Cluster架构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Redis-Cluster%E5%88%86%E7%89%87"><span class="nav-number">2.3.</span> <span class="nav-text">Redis Cluster分片</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#hash%E6%A7%BD%E5%88%86%E5%8C%BA%E4%BC%98%E7%82%B9"><span class="nav-number">2.3.1.</span> <span class="nav-text">hash槽分区优点</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#hash%E6%A7%BD%E4%B8%8E%E8%8A%82%E7%82%B9%E4%B9%8B%E9%97%B4%E7%9A%84%E6%98%A0%E5%B0%84"><span class="nav-number">2.3.2.</span> <span class="nav-text">hash槽与节点之间的映射</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%9A%E4%BD%8D%E7%9B%AE%E6%A0%87%E8%8A%82%E7%82%B9"><span class="nav-number">2.3.3.</span> <span class="nav-text">客户端定位目标节点</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91%E6%9C%BA%E5%88%B6"><span class="nav-number">2.3.4.</span> <span class="nav-text">重定向机制</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%8A%82%E7%82%B9%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1"><span class="nav-number">2.3.5.</span> <span class="nav-text">节点间的通信</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/lazyload.min.js"></script>
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>
