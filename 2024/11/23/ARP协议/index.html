@@ -9,7 +9,7 @@
     
     <title>
         
-            归档 |
+            ARP协议 |
         
         wind313&#39; blog
     </title>
@@ -190,61 +190,192 @@
             <div class="main-content border-box">
                 
 
-                    <div class="fade-in-down-animation">
-    <div class="archives-container">
-        <div class="archives-timeline border-box">
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
             
-<div class="archive-list-container border-box">
-    
-        <section class="archive-item border-box">
-            <div class="archive-item-header border-box">
-                <span class="archive-year">2024</span>
-            </div>
-            <ul class="archive-item-body border-box">
+
+            <div class="post-content-bottom border-box">
                 
-                    <li class="post-item border-box">
-                        <span class="starting-point border-box flex-center"></span>
-                        <span class="post-date border-box">11-23</span>
-                        <a class="post-title border-box text-ellipsis"
-                           href="/2024/11/23/ARP%E5%8D%8F%E8%AE%AE/"
-                        >ARP协议</a>
-                    </li>
+                    <div class="post-title">
+                        ARP协议
+                    </div>
                 
-                    <li class="post-item border-box">
-                        <span class="starting-point border-box flex-center"></span>
-                        <span class="post-date border-box">11-18</span>
-                        <a class="post-title border-box text-ellipsis"
-                           href="/2024/11/18/Redis%E9%9B%86%E7%BE%A4/"
-                        >Redis集群</a>
-                    </li>
+
                 
-                    <li class="post-item border-box">
-                        <span class="starting-point border-box flex-center"></span>
-                        <span class="post-date border-box">11-18</span>
-                        <a class="post-title border-box text-ellipsis"
-                           href="/2024/11/18/Bean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"
-                        >Bean的生命周期</a>
-                    </li>
-                
-                    <li class="post-item border-box">
-                        <span class="starting-point border-box flex-center"></span>
-                        <span class="post-date border-box">11-17</span>
-                        <a class="post-title border-box text-ellipsis"
-                           href="/2024/11/17/%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"
-                        >类和对象生命周期</a>
-                    </li>
-                
-            </ul>
-        </section>
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="https://wind313.github.io/picx-images-hosting/logo.esj6befpy.webp">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">wind313</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-11-23 21:39</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Sat Nov 23 2024 23:19:43 GMT+0800">2024-11-23 23:19</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>616 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>2 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
     
 </div>
 
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>主机A给主机B发送IP数据报文，需要通过ARP（address resolution protocol，地址解析协议）获取下一跳的MAC地址，并将IP报文封装成链路层帧，发送到下一跳上。</p>
+<span id="more"></span>
+
+<h4 id="同一局域网"><a href="#同一局域网" class="headerlink" title="同一局域网"></a>同一局域网</h4><p>注：以下为同一局域网主机A给主机B发送IP数据报过程，2-5为ARP寻址过程。</p>
+<ol>
+<li><p>主机A检索自己ARP表，发现ARP表中有主机B的IP地址对应的映射条目，提取MAC地址并构造链路层帧发送；若没有，继续以下过程。</p>
+<p>每个网络设备维护一个ARP表，记录其他网络设备的IP地址与MAC地址映射关系，以&lt;IP,MAC,TTL&gt;三元组形式存储，TTL为过期时间，一般为20分钟。</p>
+</li>
+<li><p>主机A构造一个ARP查询分组，广播到所在局域网中。</p>
+<p>ARP分组是一种报文，分为查询分组和响应分组，格式相同，均包含源IP和MAC以及目的IP和MAC。</p>
+<p>查询分组：源IP和MAC为主机A的IP和MAC，目的IP为主机B的IP，目的MAC为FF-FF-FF-FF-FF-FF（广播地址）。</p>
+</li>
+<li><p>查询分组在局域网内广播，每一个设别收到后检查接收IP是否为自己的IP，如果不是，则丢弃；如果是，则查询分组已经到主机B，继续以下过程。</p>
+</li>
+<li><p>主机B先把主机A的IP-MAC映射存到自己的ARP表中，然后构造一个ARP响应分组，发送给主机A。</p>
+<p>响应分组：源IP和MAC为主机B的IP和MAC，目的IP和MAC为主机A的IP和MAC。</p>
+</li>
+<li><p>主机A收到主机B的响应分组，提取出该分组中的源IP和MAC（主机B的IP和MAC），构造映射信息加入到自己的ARP表中。</p>
+</li>
+<li><p>主机A从ARP表中获取主机B的MAC，将IP数据报封装成链路层帧，发送给主机B。</p>
+</li>
+</ol>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/image.7pbpqwofa.webp"
+                       
+                 ></p>
+<h4 id="不同局域网"><a href="#不同局域网" class="headerlink" title="不同局域网"></a>不同局域网</h4><p>主机A和主机B所在的子网由一台路由器联通。</p>
+<p>注：路由器的每个接口都有一个IP和MAC，即每个接口都有一个ARP表。</p>
+<p>整个过程分为三个阶段：</p>
+<ol>
+<li>IP数据报从主机A发到路由器中主机A所在子网所连接的接口；（相当于统一子网内）</li>
+<li>路由器查询转发表，将IP数据报转发到与主机B所在子网所连接的接口；</li>
+<li>主机B所在子网所连接的接口将IP数据报发送给主机B；（相当于同一子网内）</li>
+</ol>
+
+                    
+                </div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/11/18/Redis%E9%9B%86%E7%BE%A4/"
+                                   title="Redis集群"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Redis集群</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
         </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%8C%E4%B8%80%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="nav-number">1.</span> <span class="nav-text">同一局域网</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="nav-number">2.</span> <span class="nav-text">不同局域网</span></a></li></ol>
     </div>
-    
+</div>
 
-
-
+            </div>
+        
+    </div>
 </div>
 
 
@@ -301,6 +432,31 @@
 
     <!-- post tools -->
     
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
 
     <!-- side tools -->
     <div class="side-tools">
@@ -331,6 +487,10 @@
     </ul>
 
     <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
         
 
         
@@ -388,8 +548,18 @@
 
     <!-- tablet toc -->
     
-</main>
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%8C%E4%B8%80%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="nav-number">1.</span> <span class="nav-text">同一局域网</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="nav-number">2.</span> <span class="nav-text">不同局域网</span></a></li></ol>
+    </div>
+</div>
 
+            </div>
+        </div>
+    
+</main>
 
 
 
@@ -413,6 +583,20 @@
     
 
     <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+
+        <!-- share -->
+        
     
 
     <!-- categories page -->
