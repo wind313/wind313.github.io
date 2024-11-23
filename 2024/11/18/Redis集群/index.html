@@ -230,7 +230,7 @@
 
             <span class="meta-info-item post-update-date">
                 <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                <span class="datetime" data-updated="Tue Nov 19 2024 23:16:53 GMT+0800">2024-11-19 23:16</span>
+                <span class="datetime" data-updated="Sat Nov 23 2024 16:02:13 GMT+0800">2024-11-23 16:02</span>
             </span>
         
 
@@ -349,9 +349,8 @@
 </ol>
 <h5 id="哨兵"><a href="#哨兵" class="headerlink" title="哨兵"></a>哨兵</h5><p>哨兵（sentinel，稳定版在Redis2.8之后发布）是Redis的一种特殊运行模式，也是一个节点，不提供读写服务，默认端口26379。</p>
 <h6 id="运行哨兵"><a href="#运行哨兵" class="headerlink" title="运行哨兵"></a>运行哨兵</h6><p>通过以下命令让Redis以哨兵模式运行：</p>
-<p><code>redis-sentinel /path/to/sentinel.conf</code></p>
-<p><code>或</code></p>
-<p><code>redis-server /path/to/sentinel.conf --sentinel</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">redis-sentinel /path/to/sentinel.conf</span><br><span class="line"></span><br><span class="line">或</span><br><span class="line"></span><br><span class="line">redis-server /path/to/sentinel.conf --sentinel</span><br></pre></td></tr></table></figure>
+
 <p>建议启动三个以上并且奇数个哨兵协作运行，可以增强容错性（避免网络波动等因素导致的误判）和可用性（一个哨兵失效，其他依然可用）。</p>
 <h6 id="哨兵功能"><a href="#哨兵功能" class="headerlink" title="哨兵功能"></a>哨兵功能</h6><ul>
 <li>监控：监控所有节点（包括自己）状态是否正常；</li>
