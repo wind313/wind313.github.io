@@ -9,7 +9,7 @@
     
     <title>
         
-            分类: Spring |
+            计算机如何存储声音 |
         
         wind313&#39; blog
     </title>
@@ -83,7 +83,7 @@
                         </li>
                     
                         
-                        <li class="menu-item flex-start border-box active">
+                        <li class="menu-item flex-start border-box">
                             <a class="menu-text-color border-box" href="/categories">
                                 
                                     <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
@@ -182,7 +182,7 @@
                 </li>
             
                 
-                <li class="drawer-menu-item border-box not-sub-menu active">
+                <li class="drawer-menu-item border-box not-sub-menu">
                     <label class="drawer-menu-label border-box">
                         <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
                             
@@ -274,40 +274,216 @@
             <div class="main-content border-box">
                 
 
-                    <div class="fade-in-down-animation">
-    <div class="category-archive-container border-box">
-        <div class="category-name">
-            <i class="fas fa-folder"></i>&nbsp;Spring
-        </div>
-        <div class="category-post-list">
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
             
-<div class="archive-list-container border-box">
-    
-        <section class="archive-item border-box">
-            <div class="archive-item-header border-box">
-                <span class="archive-year">2024</span>
-            </div>
-            <ul class="archive-item-body border-box">
+
+            <div class="post-content-bottom border-box">
                 
-                    <li class="post-item border-box">
-                        <span class="starting-point border-box flex-center"></span>
-                        <span class="post-date border-box">11-18</span>
-                        <a class="post-title border-box text-ellipsis"
-                           href="/2024/11/18/Bean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"
-                        >Bean的生命周期</a>
-                    </li>
+                    <div class="post-title">
+                        计算机如何存储声音
+                    </div>
                 
-            </ul>
-        </section>
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="https://wind313.github.io/picx-images-hosting/logo.esj6befpy.webp">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">wind313</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-05-24 23:51</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Sun May 25 2025 15:06:22 GMT+0800">2025-05-25 15:06</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E9%9F%B3%E9%A2%91/">音频</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>855 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>3 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
     
 </div>
 
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>最近在实习中接触到了裁剪和拼接wav音频的需求，对pcm编码和wav文件有了初步了解。</p>
+<span id="more"></span>
+
+<h6 id="编码格式和文件格式"><a href="#编码格式和文件格式" class="headerlink" title="编码格式和文件格式"></a>编码格式和文件格式</h6><p>编码格式和文件格式是两个不同的概念。如果把音频文件比作食品罐头，那么编码格式就好比罐头里的食品本身。它是新鲜未加工的食材，还是经过压缩脱水处理的食品？而文件格式则像是罐头的包装，是铁罐、玻璃罐还是真空袋，以及标签上写的内容。</p>
+<p>我们常见的音频文件后缀.mp3属于文件格式，它的编码格式一般是mp3。不过，有些特殊情况可能会混用编码格式和文件格式。今天，我们来聊聊wav文件。</p>
+<p>wav文件由文件头和音频数据组成。在wav文件中，音频数据最常使用的编码格式是pcm。pcm是一种无损编码，它没有使用任何算法对音频数据的空间进行压缩。这就像是新鲜未加工的食品，保留了音频最原始、最完整的状态。因此，pcm编码格式也是最直接、最容易理解的音频编码格式。</p>
+<h6 id="pcm编码格式"><a href="#pcm编码格式" class="headerlink" title="pcm编码格式"></a>pcm编码格式</h6><p>pcm音频数据由一个个帧组成，裁剪和拼接pcm音频数据都需要以帧为基本单位，否则就会损坏音频。而帧具体是什么？</p>
+<p>一段声音实际上是连续的，pcm将声音进行采样变成一个个离散的采样点，然后对每个采样点进行量化，最后编码成二进制码。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/705102cddc9c780cee893f0788ac998.7w720gksxr.webp"
+                       
+                 ></p>
+<p>所以pcm有几个重要基本参数：采样率、采样位数。采样率就是采样的频率，常见的是16kHz，44.1kHz，48kHz；采样位数就是每个采样点使用几位进行存储，常见的有16位（2字节）、24位（2.5字节）。除此之外，还有一个重要参数——声道数，单路音频只有一个声道，而立体声包含左右两个声道。</p>
+<p>pcm音频数据的一个帧由每个声道的一个采样点组成。每个帧的大小&#x3D;采样位数*声道数，每秒的帧数&#x3D;采样率&#x2F;声道数。所以只要知道这三个重要参数，就可以根据音频数据大小计算出来音频时间长度，反之也可以计算。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/ad385bf5bbd01260b913485cbf1ee84.7i0m9lto8o.webp"
+                       
+                 ></p>
+<h6 id="wav文件格式"><a href="#wav文件格式" class="headerlink" title="wav文件格式"></a>wav文件格式</h6><p>由pcm编码的wav文件的文件头由44个字节（其他编码格式或者存储作者等信息可能会更长）组成：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/image.8hgpmy4gct.webp"
+                       
+                 ></p>
+<ol>
+<li><p>0-3（char[4]）：固定为 <code>&quot;RIFF&quot;</code>，不用关注是什么意思</p>
+</li>
+<li><p>4-7（uint32）：从下一字段到文件尾的长度，即文件总长度-8</p>
+</li>
+<li><p>8-11（char[4]）：固定为 <code>&quot;WAVE&quot;</code>，wav文件标识</p>
+</li>
+<li><p>12-15（char[4]）：固定为<code>&quot;fmt &quot;</code>，mt子块标识</p>
+</li>
+<li><p>16-19（ uint32）：fmt子块长度，基础pcm编码格式固定为16，其他编码格式或者存储作者等信息可能会更长</p>
+</li>
+<li><p>fmt子块：</p>
+<p>20-21（ uint16）：编码格式，1为pcm</p>
+<p>22-23（uint16）：声道数</p>
+<p>24-27（uint32）：采样率</p>
+<p>28-31（uint32）：每秒字节数</p>
+<p>32-33（uint16）：每帧字节数</p>
+<p>34-35（uint16）：采样位数</p>
+</li>
+<li><p>36-39（char[4]）：固定为<code>&quot;data&quot;</code>，数据块标识</p>
+</li>
+<li><p>40-43（ uint32）：数据块长度</p>
+</li>
+</ol>
+<h6 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h6><p>wav文件由文件头和音频数据组成：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/image.6wqynhrsbf.webp"
+                       
+                 ></p>
+
+                    
+                </div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/11/30/%E5%8F%96%E7%9F%B3%E5%AD%90%E9%97%AE%E9%A2%98/"
+                                   title="取石子问题"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">取石子问题</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
         </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%92%8C%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">编码格式和文件格式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#pcm%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">pcm编码格式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#wav%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">wav文件格式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol>
     </div>
-    
+</div>
 
-
-
+            </div>
+        
+    </div>
 </div>
 
 
@@ -364,6 +540,31 @@
 
     <!-- post tools -->
     
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
 
     <!-- side tools -->
     <div class="side-tools">
@@ -394,6 +595,10 @@
     </ul>
 
     <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
         
 
         
@@ -451,8 +656,18 @@
 
     <!-- tablet toc -->
     
-</main>
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%92%8C%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">编码格式和文件格式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#pcm%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">pcm编码格式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#wav%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">wav文件格式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
 
+            </div>
+        </div>
+    
+</main>
 
 
 
@@ -477,10 +692,22 @@
 
     <!-- post page -->
     
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+
+        <!-- share -->
+        
+    
 
     <!-- categories page -->
-    
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/page/category-page.min.js"></script>
     
 
     <!-- links page -->
