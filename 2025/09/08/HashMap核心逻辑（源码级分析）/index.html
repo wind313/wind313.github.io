@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="wind313">
+    
+    <title>
+        
+            HashMap.put()源码分析 |
+        
+        wind313&#39; blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="https://wind313.github.io/picx-images-hosting/logo.esj6befpy.webp">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/font/css/brands.min.css">
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"wind313' blog","author":"wind313","avatar":"https://wind313.github.io/picx-images-hosting/logo.esj6befpy.webp","logo":"https://wind313.github.io/picx-images-hosting/logo.esj6befpy.webp","favicon":"https://wind313.github.io/picx-images-hosting/logo.esj6befpy.webp"},"menu":{"首页":"/                        || fa-solid fa-home","分类":"/categories              || fa-solid fa-layer-group","工具":"/tools                || fa-solid fa-tools","关于":{"icon":"fa-solid fa-address-card","children":[{"github":"https://github.com/wind313 || fa-brands fa-github"},{"qq":"https://wind313.github.io/picx-images-hosting/17077ccec93777cdafd33950f393a7b.39l80abu1l.webp || fa-brands fa-qq"}]}},"first_screen":{"enable":false,"background_img":null,"background_img_dark":null,"description":"莫愁千里路，自有到来风。","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":"yangjc2004@qq.com"}},"scroll":{"progress_bar":false,"percent":false,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created","post_datetime_format":"YYYY年MM月DD日 HH:mm"},"post":{"author_badge":{"enable":false,"level_badge":false,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm","copyright_info":false,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.36"},"waline":{"server_url":null,"reaction":false,"version":"3.2.1"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2024,"word_count":true,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":false,"css":null,"js":[null]},"root":"","source_data":{"tools":[{"category":"AI","anchorId":"QUk0"},{"name":"DeepSeek","link":"https://chat.deepseek.com/","description":"deepseek","image":"https://ts4.tc.mm.bing.net/th/id/ODLS.6eebc7a8-ce6e-4851-af10-74e4612dd938?w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动","image":"https://ts2.tc.mm.bing.net/th/id/ODLS.41103514-f9a3-4f40-abfa-5e64ba1f9a96?w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2"},{"name":"kimi","link":"https://kimi.moonshot.cn/","description":"月之暗面","image":"https://ts4.cn.mm.bing.net/th?id=ODLS.f4f63418-cc4d-4a02-abe3-bb6283cafa3d&w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI","image":"https://ts1.cn.mm.bing.net/th?id=ODLS.b6f91f47-2625-47be-8994-41a9aaf71403&w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2"},{"category":"其他","anchorId":"JUU1JTg1JUI2JUU0JUJCJTk25"},{"name":"知犀","link":"https://www.zhixi.com/space","description":"思维导图","image":"https://ts3.cn.mm.bing.net/th?id=ODLS.3edf8e00-459f-4d4c-9984-cbaca6649f43&w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2"},{"name":"图表","link":"https://app.diagrams.net/","description":"图表绘制","image":"https://ts4.cn.mm.bing.net/th?id=ODLS.4c4f9540-cb8a-446c-95ab-6f9fc16e1119&w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2"},{"name":"PlantUML","link":"https://www.plantuml.com/plantuml/","description":"PlantUML代码生成图","image":"https://ts1.cn.mm.bing.net/th?id=ODLS.592c012f-40e6-4d9b-a27e-bd05e2854d95&w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2"}]},"version":"4.2.3"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="https://wind313.github.io/picx-images-hosting/logo.esj6befpy.webp">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               wind313&#39; blog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tools">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tools"></i>
+                                
+                                工具
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box has-sub-menu">
+                            <a class="menu-text-color border-box" href="javascript:void(0);">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-address-card"></i>
+                                
+                                关于
+                                
+                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                                
+                            </a>
+                            
+                                <ul class="sub-menu-list border-box">
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" target="_blank" rel="noopener" href="https://github.com/wind313">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-brands fa-github"></i>
+                                                
+                                                GITHUB
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" target="_blank" rel="noopener" href="https://wind313.github.io/picx-images-hosting/17077ccec93777cdafd33950f393a7b.39l80abu1l.webp">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-brands fa-qq"></i>
+                                                
+                                                QQ
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tools">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tools"></i>
+                                </span>
+                            
+                            工具
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box has-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="javascript:void(0);">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-address-card"></i>
+                                </span>
+                            
+                            关于
+                        </a>
+                        
+                            <i class="right-side collapse-icon fa-solid fa-angle-left"></i>
+                        
+                    </label>
+                    
+                        <ul class="drawer-sub-menu-list border-box">
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" target="_blank" rel="noopener" href="https://github.com/wind313">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-brands fa-github"></i>
+                                            </span>
+                                        
+                                        GITHUB
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" target="_blank" rel="noopener" href="https://wind313.github.io/picx-images-hosting/17077ccec93777cdafd33950f393a7b.39l80abu1l.webp">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-brands fa-qq"></i>
+                                            </span>
+                                        
+                                        QQ
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        HashMap.put()源码分析
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="https://wind313.github.io/picx-images-hosting/logo.esj6befpy.webp">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">wind313</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-09-08 13:08</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Tue Sep 09 2025 16:46:27 GMT+0800">2025-09-09 16:46</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/Java%E9%9B%86%E5%90%88/">Java集合</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.8k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>7 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>HashMap 是 Java 开发中高频使用的数据结构，也是面试重点考察对象。本文通过 JDK 源码中 put 方法和resize方法的核心逻辑，分析 HashMap存数据和扩容的完整流程。</p>
+<span id="more"></span>
+
+<h4 id="源代码地址"><a href="#源代码地址" class="headerlink" title="源代码地址"></a>源代码地址</h4><p><a class="link"   target="_blank" rel="noopener" href="https://github.com/openjdk/jdk8/blob/master/jdk/src/share/classes/java/util/HashMap.java" >java&#x2F;util&#x2F;HashMap.java<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>public V put(K key, V value)</code>    610行</p>
+<p><code>final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict)</code>    624行</p>
+<p><code>final Node&lt;K,V&gt;[] resize()</code>     676行</p>
+<p>本文主要分析JDK8的HashMap。</p>
+<h4 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h4><h5 id="默认值"><a href="#默认值" class="headerlink" title="默认值"></a>默认值</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DEFAULT_INITIAL_CAPACITY</span> <span class="operator">=</span> <span class="number">1</span> &lt;&lt; <span class="number">4</span>;    <span class="comment">//初始容量</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">MAXIMUM_CAPACITY</span> <span class="operator">=</span> <span class="number">1</span> &lt;&lt; <span class="number">30</span>;           <span class="comment">//最大容量</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">float</span> <span class="variable">DEFAULT_LOAD_FACTOR</span> <span class="operator">=</span> <span class="number">0.75f</span>;        <span class="comment">//负载因子</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">TREEIFY_THRESHOLD</span> <span class="operator">=</span> <span class="number">8</span>;                <span class="comment">//树化阈值（单个桶元素数量）</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">UNTREEIFY_THRESHOLD</span> <span class="operator">=</span> <span class="number">6</span>;              <span class="comment">//从树转回链表的阈值</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">MIN_TREEIFY_CAPACITY</span> <span class="operator">=</span> <span class="number">64</span>;            <span class="comment">//树化最小容量（整个map容量）</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//键值对数组</span></span><br><span class="line"><span class="keyword">transient</span> Node&lt;K,V&gt;[] table;</span><br><span class="line"><span class="comment">//键值对集合视图，for-each本质上就是操作这个视图</span></span><br><span class="line"><span class="keyword">transient</span> Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet; </span><br><span class="line"><span class="comment">//此HashMap中Key-Value键值对数量</span></span><br><span class="line"><span class="keyword">transient</span> <span class="type">int</span> size;</span><br><span class="line"><span class="comment">//此Map进行过结构修改的次数（结构修改：元素数量发生改变），相当于版本号，用于迭代器，也是迭代器内可以安全remove的原因。</span></span><br><span class="line"><span class="keyword">transient</span> <span class="type">int</span> modCount;</span><br><span class="line"><span class="comment">//扩容阈值（容量 * 负载因子）</span></span><br><span class="line"><span class="type">int</span> threshold;</span><br><span class="line"><span class="comment">//负载因子</span></span><br><span class="line"><span class="keyword">final</span> <span class="type">float</span> loadFactor;                    </span><br></pre></td></tr></table></figure>
+
+<h5 id="put方法"><a href="#put方法" class="headerlink" title="put方法"></a>put方法</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> V <span class="title function_">put</span><span class="params">(K key, V value)</span> &#123;</span><br><span class="line">    <span class="comment">//方法内部直接调用了putVal方法</span></span><br><span class="line">    <span class="keyword">return</span> putVal(hash(key), key, value, <span class="literal">false</span>, <span class="literal">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="putVal方法"><a href="#putVal方法" class="headerlink" title="putVal方法"></a>putVal方法</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 参数说明：</span></span><br><span class="line"><span class="comment">// hash: key的哈希值</span></span><br><span class="line"><span class="comment">// onlyIfAbsent: false则覆盖已有key的值；true则仅在key不存在时插入</span></span><br><span class="line"><span class="keyword">final</span> V <span class="title function_">putVal</span><span class="params">(<span class="type">int</span> hash, K key, V value, <span class="type">boolean</span> onlyIfAbsent,</span></span><br><span class="line"><span class="params">               <span class="type">boolean</span> evict)</span> &#123;</span><br><span class="line">    Node&lt;K,V&gt;[] tab;  <span class="comment">// 哈希表数组</span></span><br><span class="line">    Node&lt;K,V&gt; p;      <span class="comment">// 当前桶的头节点</span></span><br><span class="line">    <span class="type">int</span> n, i;         <span class="comment">// n=哈希表长度；i=计算出的桶索引</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1. 哈希表未初始化则先初始化</span></span><br><span class="line">    <span class="keyword">if</span> ((tab = table) == <span class="literal">null</span> || (n = tab.length) == <span class="number">0</span>)</span><br><span class="line">        n = (tab = resize()).length;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 计算桶索引，若桶为空则直接插入新节点</span></span><br><span class="line">    <span class="comment">// 由于n为2的幂，(n - 1) &amp; hash等价于hash % n，但位运算效率更高</span></span><br><span class="line">    <span class="keyword">if</span> ((p = tab[i = (n - <span class="number">1</span>) &amp; hash]) == <span class="literal">null</span>)</span><br><span class="line">        tab[i] = newNode(hash, key, value, <span class="literal">null</span>);</span><br><span class="line">    <span class="comment">// 3. 桶不为空，处理哈希冲突</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        Node&lt;K,V&gt; e;  <span class="comment">// 记录已存在的key对应节点</span></span><br><span class="line">        K k;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3.1 头节点就是目标key（哈希和key都匹配）</span></span><br><span class="line">        <span class="keyword">if</span> (p.hash == hash &amp;&amp;</span><br><span class="line">            ((k = p.key) == key || (key != <span class="literal">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">            e = p;</span><br><span class="line">        <span class="comment">// 3.2 头节点是红黑树节点，调用树插入逻辑</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (p <span class="keyword">instanceof</span> TreeNode)</span><br><span class="line">            e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(<span class="built_in">this</span>, tab, hash, key, value);</span><br><span class="line">        <span class="comment">// 3.3 遍历链表查找</span></span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">binCount</span> <span class="operator">=</span> <span class="number">0</span>; ; ++binCount) &#123;</span><br><span class="line">                <span class="comment">// 3.3.1 遍历到尾部，插入新节点</span></span><br><span class="line">                <span class="keyword">if</span> ((e = p.next) == <span class="literal">null</span>) &#123;</span><br><span class="line">                    p.next = newNode(hash, key, value, <span class="literal">null</span>);</span><br><span class="line">                    <span class="comment">// 链表长度达8时转为红黑树（binCount从0开始）</span></span><br><span class="line">                    <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD - <span class="number">1</span>)</span><br><span class="line">                        treeifyBin(tab, hash);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 3.3.2 找到匹配的key，退出循环</span></span><br><span class="line">                <span class="keyword">if</span> (e.hash == hash &amp;&amp;</span><br><span class="line">                    ((k = e.key) == key || (key != <span class="literal">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                p = e;  <span class="comment">// 移动到下一个节点</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 找到已有key，根据onlyIfAbsent决定是否覆盖值</span></span><br><span class="line">        <span class="keyword">if</span> (e != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="type">V</span> <span class="variable">oldValue</span> <span class="operator">=</span> e.value;</span><br><span class="line">            <span class="keyword">if</span> (!onlyIfAbsent || oldValue == <span class="literal">null</span>)</span><br><span class="line">                e.value = value;</span><br><span class="line">            afterNodeAccess(e);  <span class="comment">// LinkedHashMap维护访问顺序,HashMap的该方法为空方法</span></span><br><span class="line">            <span class="keyword">return</span> oldValue;     <span class="comment">// 返回旧值</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 5. 新节点插入后处理</span></span><br><span class="line">    ++modCount;  <span class="comment">// 修改计数（用于迭代器快速失败）</span></span><br><span class="line">    <span class="comment">// 元素数超过阈值则扩容</span></span><br><span class="line">    <span class="keyword">if</span> (++size &gt; threshold)</span><br><span class="line">        resize();</span><br><span class="line">    afterNodeInsertion(evict);  <span class="comment">// LinkedHashMap的LRU驱逐,HashMap的该方法为空方法</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;  <span class="comment">// 无旧值返回null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="resize方法"><a href="#resize方法" class="headerlink" title="resize方法"></a>resize方法</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> Node&lt;K,V&gt;[] resize() &#123;</span><br><span class="line">    Node&lt;K,V&gt;[] oldTab = table;       <span class="comment">// 旧哈希表</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">oldCap</span> <span class="operator">=</span> (oldTab == <span class="literal">null</span>) ? <span class="number">0</span> : oldTab.length;  <span class="comment">// 旧容量</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">oldThr</span> <span class="operator">=</span> threshold;           <span class="comment">// 旧扩容阈值</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">newCap</span> <span class="operator">=</span> <span class="number">0</span>, newThr = <span class="number">0</span>;       <span class="comment">// 新容量和阈值</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 情况1：旧表已初始化</span></span><br><span class="line">    <span class="keyword">if</span> (oldCap &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (oldCap &gt;= MAXIMUM_CAPACITY) &#123;  <span class="comment">// 已达最大容量</span></span><br><span class="line">            threshold = Integer.MAX_VALUE;</span><br><span class="line">            <span class="keyword">return</span> oldTab;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ((newCap = oldCap &lt;&lt; <span class="number">1</span>) &lt; MAXIMUM_CAPACITY &amp;&amp; oldCap &gt;= DEFAULT_INITIAL_CAPACITY) </span><br><span class="line">            newThr = oldThr &lt;&lt; <span class="number">1</span>;  <span class="comment">// 容量和阈值翻倍</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 情况2：旧表未初始化但有阈值（构造时指定容量）</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (oldThr &gt; <span class="number">0</span>) </span><br><span class="line">        newCap = oldThr;  <span class="comment">// 阈值作为初始容量（已处理为2的幂）</span></span><br><span class="line">    <span class="comment">// 情况3：使用默认参数构造</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        newCap = DEFAULT_INITIAL_CAPACITY;     <span class="comment">// 默认初始容量16</span></span><br><span class="line">        newThr = (<span class="type">int</span>)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);    <span class="comment">// 默认阈值16*0.75   </span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算新阈值（情况2未计算时）</span></span><br><span class="line">    <span class="keyword">if</span> (newThr == <span class="number">0</span>) &#123;</span><br><span class="line">        newThr = (newCap &lt; MAXIMUM_CAPACITY) ? </span><br><span class="line">                 (<span class="type">int</span>)(newCap * loadFactor) : Integer.MAX_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">    threshold = newThr;  <span class="comment">// 更新阈值</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建新哈希表</span></span><br><span class="line">    Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])<span class="keyword">new</span> <span class="title class_">Node</span>[newCap];</span><br><span class="line">    table = newTab;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 迁移旧表数据到新表</span></span><br><span class="line">    <span class="keyword">if</span> (oldTab != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; oldCap; j++) &#123;</span><br><span class="line">            Node&lt;K,V&gt; e = oldTab[j];</span><br><span class="line">            <span class="keyword">if</span> (e != <span class="literal">null</span>) &#123;</span><br><span class="line">                oldTab[j] = <span class="literal">null</span>;  <span class="comment">// 释放旧引用</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">// 子情况1：桶中只有一个节点</span></span><br><span class="line">                <span class="keyword">if</span> (e.next == <span class="literal">null</span>)</span><br><span class="line">                    newTab[e.hash &amp; (newCap - <span class="number">1</span>)] = e;</span><br><span class="line">                <span class="comment">// 子情况2：桶中是红黑树</span></span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (e <span class="keyword">instanceof</span> TreeNode)</span><br><span class="line">                    ((TreeNode&lt;K,V&gt;)e).split(<span class="built_in">this</span>, newTab, j, oldCap);</span><br><span class="line">                <span class="comment">// 子情况3：桶中是链表，拆分为两个子链表</span></span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    Node&lt;K,V&gt; loHead = <span class="literal">null</span>, loTail = <span class="literal">null</span>;  <span class="comment">// 留在原位置的链表</span></span><br><span class="line">                    Node&lt;K,V&gt; hiHead = <span class="literal">null</span>, hiTail = <span class="literal">null</span>;  <span class="comment">// 迁移到新位置的链表</span></span><br><span class="line">                    Node&lt;K,V&gt; next;</span><br><span class="line">                    <span class="keyword">do</span> &#123;</span><br><span class="line">                        next = e.next;</span><br><span class="line">                        <span class="comment">// 用哈希值与旧容量判断位置</span></span><br><span class="line">                        <span class="keyword">if</span> ((e.hash &amp; oldCap) == <span class="number">0</span>) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (loTail == <span class="literal">null</span>) loHead = e;</span><br><span class="line">                            <span class="keyword">else</span> loTail.next = e;</span><br><span class="line">                            loTail = e;</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="keyword">if</span> (hiTail == <span class="literal">null</span>) hiHead = e;</span><br><span class="line">                            <span class="keyword">else</span> hiTail.next = e;</span><br><span class="line">                            hiTail = e;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">while</span> ((e = next) != <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 放置低位链表到原位置</span></span><br><span class="line">                    <span class="keyword">if</span> (loTail != <span class="literal">null</span>) &#123;</span><br><span class="line">                        loTail.next = <span class="literal">null</span>;</span><br><span class="line">                        newTab[j] = loHead;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// 放置高位链表到新位置（j+oldCap）</span></span><br><span class="line">                    <span class="keyword">if</span> (hiTail != <span class="literal">null</span>) &#123;</span><br><span class="line">                        hiTail.next = <span class="literal">null</span>;</span><br><span class="line">                        newTab[j + oldCap] = hiHead;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> newTab;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h4><h5 id="put方法-1"><a href="#put方法-1" class="headerlink" title="put方法"></a>put方法</h5><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/image.58hpy2cl0w.webp"
+                       
+                 ></p>
+<h5 id="resize方法-1"><a href="#resize方法-1" class="headerlink" title="resize方法"></a>resize方法</h5><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://wind313.github.io/picx-images-hosting/image.9o054hw594.webp"
+                       
+                 ></p>
+<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><h5 id="为什么重写equals-时必须重写hashCode"><a href="#为什么重写equals-时必须重写hashCode" class="headerlink" title="为什么重写equals()时必须重写hashCode() ?"></a>为什么重写equals()时必须重写hashCode() ?</h5><p>如果只重写<code>equals()</code>而不重写<code>hashCode()</code>，会导致两个内容相同的对象，由于默认的<code>hashCode()</code>方法（基于对象的内存地址生成哈希值），会生成不同的哈希值。当把这两个对象存入<code>HashMap</code>或<code>HashSet</code>时，集合会认为它们是不同的对象，从而可能将内容相同的对象多次存储，破坏了集合 “不存储重复元素”（<code>HashSet</code>）或 “键唯一”（<code>HashMap</code>）的特性。</p>
+<h5 id="为什么HashMap中容量是2的幂？"><a href="#为什么HashMap中容量是2的幂？" class="headerlink" title="为什么HashMap中容量是2的幂？"></a>为什么HashMap中容量是2的幂？</h5><p>主要是基于位运算的高效性，以及对哈希桶索引计算、扩容操作的优化。</p>
+<p>（1）当n为2的幂时，<code>(n - 1) &amp; hash</code>等价于<code>hash % n</code>，计算哈希桶索引可使用位运算<code>(n - 1) &amp; hash</code>；</p>
+<p>（2）扩容时可以 使用<code>newCap = oldCap &lt;&lt; 1</code> 来实现容量翻倍；</p>
+<p>（3）当n为2的幂时，扩容时可以根据<code>(e.hash &amp; oldCap) == 0</code>判断key放到原位置<code>j</code>还是新位置<code>oldCap+j</code>。</p>
+<h5 id="HashMap-扩容后，原有-key-在新数组中如何分布？"><a href="#HashMap-扩容后，原有-key-在新数组中如何分布？" class="headerlink" title="HashMap 扩容后，原有 key 在新数组中如何分布？"></a>HashMap 扩容后，原有 key 在新数组中如何分布？</h5><p>等价于使用hash值重新对新容量取余，不过使用了位运算+加法：</p>
+<p>只需判断元素哈希值中与 <code>oldCap</code> 最高位对应的那一位（<code>oldCap</code>是2的幂，所以最高位是1，其余位为0，直接使用与运算即可判断）</p>
+<p>（1）若<code>(e.hash &amp; oldCap) == 0</code>，说明该位为 0，元素在新数组中仍位于原下标<code> j</code>；</p>
+<p>（2）若<code>(e.hash &amp; oldCap) != 0</code>，说明该位为 1，元素在新数组中位于新下标<code>j + oldCap</code>。</p>
+
+                    
+                </div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/09/04/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%A4%84%E7%90%86%E4%BB%BB%E5%8A%A1%E6%A0%B8%E5%BF%83%E9%80%BB%E8%BE%91%EF%BC%88%E6%BA%90%E7%A0%81%E7%BA%A7%E5%88%86%E6%9E%90%EF%BC%89/"
+                                   title="java线程池处理任务核心逻辑（源码级分析）"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">java线程池处理任务核心逻辑（源码级分析）</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81%E5%9C%B0%E5%9D%80"><span class="nav-number">1.</span> <span class="nav-text">源代码地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">源代码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="nav-number">2.1.</span> <span class="nav-text">默认值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><span class="nav-number">2.2.</span> <span class="nav-text">成员变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#put%E6%96%B9%E6%B3%95"><span class="nav-number">2.3.</span> <span class="nav-text">put方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#putVal%E6%96%B9%E6%B3%95"><span class="nav-number">2.4.</span> <span class="nav-text">putVal方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#resize%E6%96%B9%E6%B3%95"><span class="nav-number">2.5.</span> <span class="nav-text">resize方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-number">3.</span> <span class="nav-text">流程图</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#put%E6%96%B9%E6%B3%95-1"><span class="nav-number">3.1.</span> <span class="nav-text">put方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#resize%E6%96%B9%E6%B3%95-1"><span class="nav-number">3.2.</span> <span class="nav-text">resize方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">思考</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E5%86%99equals-%E6%97%B6%E5%BF%85%E9%A1%BB%E9%87%8D%E5%86%99hashCode"><span class="nav-number">4.1.</span> <span class="nav-text">为什么重写equals()时必须重写hashCode() ?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88HashMap%E4%B8%AD%E5%AE%B9%E9%87%8F%E6%98%AF2%E7%9A%84%E5%B9%82%EF%BC%9F"><span class="nav-number">4.2.</span> <span class="nav-text">为什么HashMap中容量是2的幂？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HashMap-%E6%89%A9%E5%AE%B9%E5%90%8E%EF%BC%8C%E5%8E%9F%E6%9C%89-key-%E5%9C%A8%E6%96%B0%E6%95%B0%E7%BB%84%E4%B8%AD%E5%A6%82%E4%BD%95%E5%88%86%E5%B8%83%EF%BC%9F"><span class="nav-number">4.3.</span> <span class="nav-text">HashMap 扩容后，原有 key 在新数组中如何分布？</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+        &copy;&nbsp;<span>2024</span>&nbsp;-&nbsp;2025
+        
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">wind313</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">12.9k</span>
+                </span>
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81%E5%9C%B0%E5%9D%80"><span class="nav-number">1.</span> <span class="nav-text">源代码地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">源代码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="nav-number">2.1.</span> <span class="nav-text">默认值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><span class="nav-number">2.2.</span> <span class="nav-text">成员变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#put%E6%96%B9%E6%B3%95"><span class="nav-number">2.3.</span> <span class="nav-text">put方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#putVal%E6%96%B9%E6%B3%95"><span class="nav-number">2.4.</span> <span class="nav-text">putVal方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#resize%E6%96%B9%E6%B3%95"><span class="nav-number">2.5.</span> <span class="nav-text">resize方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-number">3.</span> <span class="nav-text">流程图</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#put%E6%96%B9%E6%B3%95-1"><span class="nav-number">3.1.</span> <span class="nav-text">put方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#resize%E6%96%B9%E6%B3%95-1"><span class="nav-number">3.2.</span> <span class="nav-text">resize方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">思考</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E5%86%99equals-%E6%97%B6%E5%BF%85%E9%A1%BB%E9%87%8D%E5%86%99hashCode"><span class="nav-number">4.1.</span> <span class="nav-text">为什么重写equals()时必须重写hashCode() ?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88HashMap%E4%B8%AD%E5%AE%B9%E9%87%8F%E6%98%AF2%E7%9A%84%E5%B9%82%EF%BC%9F"><span class="nav-number">4.2.</span> <span class="nav-text">为什么HashMap中容量是2的幂？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HashMap-%E6%89%A9%E5%AE%B9%E5%90%8E%EF%BC%8C%E5%8E%9F%E6%9C%89-key-%E5%9C%A8%E6%96%B0%E6%95%B0%E7%BB%84%E4%B8%AD%E5%A6%82%E4%BD%95%E5%88%86%E5%B8%83%EF%BC%9F"><span class="nav-number">4.3.</span> <span class="nav-text">HashMap 扩容后，原有 key 在新数组中如何分布？</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/lazyload.min.js"></script>
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.3/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>
